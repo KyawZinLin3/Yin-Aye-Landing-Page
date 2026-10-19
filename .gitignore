@@ -1,0 +1,8 @@
+node_modules/
+dist/
+community-landing-page/
+theme-refrence/
+*.png
+.env
+.env.*
+!.env.example
