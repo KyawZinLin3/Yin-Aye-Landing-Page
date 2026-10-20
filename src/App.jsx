@@ -4,7 +4,6 @@ import {
   ArrowUpRight,
   BadgeCheck,
   Building2,
-  CheckCircle2,
   ChevronDown,
   Clock3,
   FileCheck2,
@@ -19,20 +18,23 @@ import {
 import farmersImage from '../hero-optimized.jpg';
 import womanImage from '../woman-farmer-optimized.jpg';
 import advisorImage from '../community-advisor-optimized.jpg';
-import { applicationSteps, company, contactDetails, faqs, loanProducts, serviceCoverage } from './data/siteContent.js';
+import MyanmarMap from './MyanmarMap.jsx';
+import { applicationSteps, company, contactDetails, faqs, loanProducts } from './data/siteContent.js';
 
 const navigation = [
-  ['Home', '#home'],
-  ['About Us', '#about'],
-  ['Loan Services', '#loan-services'],
-  ['How to Apply', '#how-to-apply'],
-  ['Service Areas', '#service-areas'],
-  ['FAQs', '#faqs'],
+  ['Home', '/'],
+  ['About Us', '/about'],
+  ['Loan Services', '/loan-services'],
+  ['How to Apply', '/how-to-apply'],
+  ['Service Areas', '/service-areas'],
+  ['FAQs', '/faqs'],
 ];
+
+const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
 
 function Brand({ footer = false }) {
   return (
-    <a className={`brand ${footer ? 'brand-footer' : ''}`} href="#home" aria-label={`${company.name} home`}>
+    <a className={`brand ${footer ? 'brand-footer' : ''}`} href="/" aria-label={`${company.name} home`}>
       <span className="brand-name">Yin Aye<span className="brand-dot">.</span></span>
       <span className="brand-caption">Finance Company Limited</span>
     </a>
@@ -60,8 +62,8 @@ function SiteHeader() {
             {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
           </button>
           <nav id="primary-navigation" className={menuOpen ? 'nav-links open' : 'nav-links'} aria-label="Main navigation">
-            {navigation.map(([label, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}
-            <a className="nav-cta" href="#contact" onClick={() => setMenuOpen(false)}>Contact Us <ArrowUpRight size={14} aria-hidden="true" /></a>
+            {navigation.map(([label, href]) => <a key={href} href={href} className={currentPath === href ? 'current-page' : undefined} aria-current={currentPath === href ? 'page' : undefined} onClick={() => setMenuOpen(false)}>{label}</a>)}
+            <a className={`nav-cta${currentPath === '/contact' ? ' current-page' : ''}`} href="/contact" aria-current={currentPath === '/contact' ? 'page' : undefined} onClick={() => setMenuOpen(false)}>Contact Us <ArrowUpRight size={14} aria-hidden="true" /></a>
           </nav>
         </div>
       </header>
@@ -78,8 +80,8 @@ function HeroSection() {
           <h1>Peace of Mind for Your <em>Financial Journey</em></h1>
           <p>Welcome to {company.name}. Established in {company.established}, we are committed to providing accessible financial services with a focus on trust, transparency, and peace of mind.</p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#loan-services">Explore Our Services <ArrowRight size={16} aria-hidden="true" /></a>
-            <a className="text-link" href="#contact">Contact Us <ArrowUpRight size={15} aria-hidden="true" /></a>
+            <a className="button button-primary" href="/loan-services">Explore Our Services <ArrowRight size={16} aria-hidden="true" /></a>
+            <a className="text-link" href="/contact">Contact Us <ArrowUpRight size={15} aria-hidden="true" /></a>
           </div>
           <div className="hero-trust">
             <span className="trust-mark"><ShieldCheck size={18} aria-hidden="true" /></span>
@@ -206,13 +208,10 @@ function ServiceAreasSection() {
       <div className="container">
         <div className="section-heading">
           <Eyebrow>Service areas</Eyebrow>
-          <h2>Serving Our <em>Communities</em></h2>
-          <p>Discover the areas where Yin Aye Finance provides its services.</p>
+          <h2>Serving <em>Yangon</em></h2>
+          <p>Explore Myanmar’s states and regions. Yangon Region is highlighted as our currently listed service area.</p>
         </div>
-        <div className="area-grid">
-          {serviceCoverage.confirmedTownships.map((township, index) => <article className="area-card" key={township}><span className="area-number">0{index + 1}</span><span className="area-pin"><MapPin size={19} aria-hidden="true" /></span><h3>{township}</h3><span className="area-country">Myanmar</span></article>)}
-        </div>
-        <p className="area-note"><CheckCircle2 size={15} aria-hidden="true" /> Showing confirmed townships only. Additional service area information is pending confirmation.</p>
+        <MyanmarMap />
       </div>
     </section>
   );
@@ -242,14 +241,14 @@ function ContactSection() {
   return (
     <section className="contact-section section" id="contact">
       <div className="container contact-grid">
-        <div className="contact-copy"><Eyebrow>Contact us</Eyebrow><h2>We’re Here to <em>Help</em></h2><p>Have questions about our financial services? Get in touch with Yin Aye Finance. Official contact details are being prepared.</p><span className="contact-company">{company.name}</span></div>
+        <div className="contact-copy"><Eyebrow>Contact us</Eyebrow><h2>We’re Here to <em>Help</em></h2><p>Have questions about our financial services? Get in touch with Yin Aye Finance using the contact details below.</p><span className="contact-company">{company.name}</span></div>
         <div className="contact-card">
           <ContactValue label="Company phone" value={contactDetails.phone} icon={Phone} href={contactDetails.phone ? `tel:${contactDetails.phone}` : undefined} />
           <ContactValue label="Official email" value={contactDetails.email} icon={Mail} href={contactDetails.email ? `mailto:${contactDetails.email}` : undefined} />
           <ContactValue label="Registered or head office" value={contactDetails.address} icon={MapPin} />
           <ContactValue label="Business hours" value={contactDetails.businessHours} icon={Clock3} />
           <ContactValue label="Facebook page" value={contactDetails.facebook} icon={ArrowUpRight} href={contactDetails.facebook || undefined} />
-          <p className="contact-note">Contact information will be published when confirmed. This website does not collect financial or identity information.</p>
+          <p className="contact-note">Business hours and Facebook details are pending confirmation. This website does not collect financial or identity information.</p>
         </div>
       </div>
     </section>
@@ -264,7 +263,7 @@ function SiteFooter() {
         <div className="footer-links">
           <div><strong>Explore</strong>{navigation.slice(0, 5).map(([label, href]) => <a href={href} key={href}>{label}</a>)}</div>
           <div><strong>Company</strong><span>Established {company.established}</span><span>Registration No. {company.registrationNumber}</span><span>Microfinance Operating License No. {company.microfinanceLicense}</span></div>
-          <div><strong>Contact</strong><a href="#contact">Contact information</a><span>Phone and email pending</span><span>Office details pending</span><span className="privacy-pending">Privacy Policy (pending)</span></div>
+          <div><strong>Contact</strong><a href={`tel:${contactDetails.phone}`}>Phone: {contactDetails.phone}</a><a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a><span className="footer-contact-address">Office: {contactDetails.address}</span><span className="privacy-pending">Privacy Policy (pending)</span></div>
         </div>
       </div>
       <div className="container footer-bottom"><span>© {new Date().getFullYear()} {company.name}. All rights reserved.</span><span>Myanmar · Microfinance / Financial Services</span></div>
@@ -273,17 +272,19 @@ function SiteFooter() {
 }
 
 export function App() {
+  const pageContent = {
+    '/': <><HeroSection /><AboutSection /><LoanServicesSection /><HowToApplySection /><ServiceAreasSection /><FAQSection /><ContactSection /></>,
+    '/about': <AboutSection />,
+    '/loan-services': <LoanServicesSection />,
+    '/how-to-apply': <HowToApplySection />,
+    '/service-areas': <ServiceAreasSection />,
+    '/faqs': <FAQSection />,
+    '/contact': <ContactSection />,
+  };
+
   return <>
     <SiteHeader />
-    <main>
-      <HeroSection />
-      <AboutSection />
-      <LoanServicesSection />
-      <HowToApplySection />
-      <ServiceAreasSection />
-      <FAQSection />
-      <ContactSection />
-    </main>
+    <main>{pageContent[currentPath] || pageContent['/']}</main>
     <SiteFooter />
   </>;
 }

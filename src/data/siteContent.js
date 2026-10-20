@@ -9,18 +9,6 @@ export const company = {
   country: 'Myanmar',
 };
 
-export const serviceCoverage = {
-  totalTownships: 7,
-  confirmedTownships: [
-    'Mayangone',
-    'North Dagon',
-    'South Dagon',
-    'East Dagon',
-    'Dagon Seikkan',
-  ],
-  pendingTownshipCount: 2,
-};
-
 // Product terms remain empty until the company confirms them.
 export const loanProducts = [];
 
@@ -46,7 +34,7 @@ export const faqs = [
   },
   {
     question: 'What areas does Yin Aye Finance serve?',
-    answer: 'Confirmed service areas are Mayangone, North Dagon, South Dagon, East Dagon and Dagon Seikkan. Two additional township names are pending confirmation.',
+    answer: 'Yin Aye Finance currently lists Yangon Region as its service area. Please contact us to ask about services in other locations.',
   },
   {
     question: 'How can I contact the company?',
@@ -55,9 +43,9 @@ export const faqs = [
 ];
 
 export const contactDetails = {
-  phone: null,
-  email: null,
-  address: null,
+  phone: '09-943125736',
+  email: 'yinaye.microfinance@pristinemyanmar.com',
+  address: 'No. (B/7), Taw Win Road, (9) Mile, (4) Ward, Mayangone Township, Yangon',
   businessHours: null,
   facebook: null,
 };
