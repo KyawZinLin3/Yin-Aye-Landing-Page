@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import geoJsonUrl from './data/myanmar-adm1.geojson?url';
+import { useLanguage } from './i18n.jsx';
 
 const MAP_HEIGHT = 680;
 const MAP_AREA = { x: 12, y: 18, width: 405, height: 642 };
@@ -84,6 +85,7 @@ function prepareMap(data) {
 }
 
 export default function MyanmarMap() {
+  const { t } = useLanguage();
   const [mapData, setMapData] = useState(null);
   const [selectedName, setSelectedName] = useState('Yangon');
   const [loadError, setLoadError] = useState(false);
@@ -111,25 +113,25 @@ export default function MyanmarMap() {
   return (
     <div className="service-map-layout">
       <div className="service-map-copy">
-        <span className="service-map-kicker">Current service area</span>
-        <h3>{selected ? `${selected.name}${selected.type === 'State or Region' ? '' : ` ${selected.type}`}` : 'Yangon Region'}</h3>
+        <span className="service-map-kicker">{t('Current service area')}</span>
+        <h3>{selected ? `${t(selected.name)}${selected.type === 'State or Region' ? '' : ` ${t(selected.type)}`}` : t('Yangon Region')}</h3>
         <p aria-live="polite">
           {selectedName === 'Yangon'
-            ? 'Yin Aye Finance currently serves customers in Yangon Region.'
-            : `You selected ${selected?.name || selectedName}. Yangon Region is our currently listed service area; contact us to ask about service in other locations.`}
+            ? t('Yin Aye Finance currently serves customers in Yangon Region.')
+            : `${t('You selected')} ${t(selected?.name || selectedName)}. ${t('Yangon Region is our currently listed service area; contact us to ask about service in other locations.')}`}
         </p>
-        <a className="service-map-contact" href="/contact">Contact us <span aria-hidden="true">↗</span></a>
-        <p className="service-map-hint">Select any state or region on the map to explore it.</p>
+        <a className="service-map-contact" href="/contact">{t('Contact us')} <span aria-hidden="true">↗</span></a>
+        <p className="service-map-hint">{t('Select any state or region on the map to explore it.')}</p>
       </div>
 
       <figure className="myanmar-map-frame">
         {loadError ? (
-          <div className="map-loading" role="status">The map is temporarily unavailable. Yangon Region is our currently listed service area.</div>
+          <div className="map-loading" role="status">{t('The map is temporarily unavailable. Yangon Region is our currently listed service area.')}</div>
         ) : !mapData ? (
-          <div className="map-loading" role="status">Loading Myanmar map…</div>
+          <div className="map-loading" role="status">{t('Loading Myanmar map…')}</div>
         ) : (
-          <svg className="myanmar-map" viewBox={`0 0 460 ${MAP_HEIGHT}`} role="group" aria-label="Interactive map of Myanmar states and regions">
-            <title>Interactive map of Myanmar. Yangon Region is highlighted.</title>
+          <svg className="myanmar-map" viewBox={`0 0 460 ${MAP_HEIGHT}`} role="group" aria-label={t('Interactive map of Myanmar states and regions')}>
+            <title>{t('Interactive map of Myanmar. Yangon Region is highlighted.')}</title>
             <g className="map-shapes">
               {mapData.features.map(({ name, type, path }) => {
                 const isYangon = name === 'Yangon';
@@ -142,7 +144,7 @@ export default function MyanmarMap() {
                     fillRule="evenodd"
                     role="button"
                     tabIndex="0"
-                    aria-label={`${name} ${type}`}
+                    aria-label={`${t(name)} ${t(type)}`}
                     aria-pressed={isSelected}
                     onClick={() => setSelectedName(name)}
                     onFocus={() => setSelectedName(name)}
@@ -153,7 +155,7 @@ export default function MyanmarMap() {
                       }
                     }}
                   >
-                    <title>{`${name} ${type}`}</title>
+                    <title>{`${t(name)} ${t(type)}`}</title>
                   </path>
                 );
               })}
@@ -162,18 +164,18 @@ export default function MyanmarMap() {
               <g className="map-yangon-callout" aria-hidden="true">
                 <circle cx={yangonPoint[0]} cy={yangonPoint[1]} r="4" />
                 <path d={`M${yangonPoint[0]},${yangonPoint[1]} L${yangonPoint[0] + 44},${yangonPoint[1] - 36} L${yangonPoint[0] + 105},${yangonPoint[1] - 36}`} />
-                <text x={yangonPoint[0] + 112} y={yangonPoint[1] - 39}>Yangon Region</text>
-                <text className="map-callout-subtitle" x={yangonPoint[0] + 112} y={yangonPoint[1] - 22}>Our current service area</text>
+                <text x={yangonPoint[0] + 112} y={yangonPoint[1] - 39}>{t('Yangon Region')}</text>
+                <text className="map-callout-subtitle" x={yangonPoint[0] + 112} y={yangonPoint[1] - 22}>{t('Our current service area')}</text>
               </g>
             )}
             {selected && selectedName !== 'Yangon' && (
-              <text className="map-selection-label" x="20" y="670">Selected: {selected.name} {selected.type}</text>
+              <text className="map-selection-label" x="20" y="670">{t('Selected:')} {t(selected.name)} {t(selected.type)}</text>
             )}
           </svg>
         )}
         <figcaption>
-          <span><i className="map-legend-dot" />Yangon Region</span>
-          <a href="https://www.geoboundaries.org/" target="_blank" rel="noreferrer">Boundaries: Myanmar Analytics Project via geoBoundaries · CC BY 4.0</a>
+          <span><i className="map-legend-dot" />{t('Yangon Region')}</span>
+          <a href="https://www.geoboundaries.org/" target="_blank" rel="noreferrer">{t('Boundaries: Myanmar Analytics Project via geoBoundaries · CC BY 4.0')}</a>
         </figcaption>
       </figure>
     </div>
