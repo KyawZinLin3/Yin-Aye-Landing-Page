@@ -99,6 +99,20 @@
 .contact-value small{font-size:9px;color:#808a83}
 .contact-value a,.contact-value strong{font-size:11px;color:#35463a;font-weight:600}
 .contact-note{font-size:9px;line-height:1.6;color:#77827a;margin:13px 0 3px}
+.contact-form{grid-column:1/-1;padding:28px 30px;border:1px solid #dbe6f1;border-radius:14px;background:#fff;box-shadow:0 8px 28px #18395b12}
+.contact-form-heading h3{margin:0;color:#263a4f;font-family:var(--serif);font-size:25px;line-height:1.35}
+.contact-form-heading p{margin:7px 0 20px;color:#718092;font-size:12px;line-height:1.7}
+.contact-form-fields{display:grid;grid-template-columns:1fr 1fr;gap:17px 20px}
+.contact-form-field{display:flex;min-width:0;flex-direction:column;gap:7px;color:#43566a;font-size:11px;font-weight:600}
+.contact-form-field input,.contact-form-field textarea{width:100%;border:1px solid #dce5ef;border-radius:7px;background:#fbfdff;color:#293c50;padding:11px 12px;font:inherit;font-size:13px;line-height:1.6;transition:border-color .18s ease,box-shadow .18s ease}
+.contact-form-field input{min-height:44px}
+.contact-form-field textarea{min-height:145px;resize:vertical}
+.contact-form-field input:focus,.contact-form-field textarea:focus{border-color:#6f9fce;outline:none;box-shadow:0 0 0 3px #2365a81a}
+.contact-form-subject,.contact-form-message{grid-column:1/-1}
+.contact-form-actions{display:flex;align-items:center;gap:15px;margin-top:18px}
+.contact-form-actions>span{color:#748294;font-size:10px;line-height:1.6}
+.contact-form-actions>span a{color:var(--green-dark);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.contact-form-actions .button{border:0}
 .footer-myanmar{font-family:'Noto Sans Myanmar','DM Sans',sans-serif;font-size:12px!important;color:#596b5f!important;line-height:1.8!important;margin:13px 0 0!important}
 .footer-brand>p:not(.footer-myanmar){margin-top:9px}
 .footer-links>div>span{font-size:9px;line-height:1.55;color:#778179}
@@ -179,6 +193,8 @@
 }
 .privacy-pending{color:#87928a!important}
 .footer-bottom>span:last-child{color:#89928b}
+@media(max-width:760px){.contact-form{padding:22px}.contact-form-fields{grid-template-columns:1fr}.contact-form-subject,.contact-form-message{grid-column:auto}.contact-form-actions{align-items:flex-start;flex-direction:column;gap:10px}}
+@media(max-width:650px){.contact-form{padding:18px}.contact-form-heading h3{font-size:22px}.contact-form-field input,.contact-form-field textarea{font-size:13px}}
 :where(a,button,input,summary):focus-visible{outline:3px solid #7daa88;outline-offset:3px}
 .faq-item summary:focus-visible{border-radius:4px}
 

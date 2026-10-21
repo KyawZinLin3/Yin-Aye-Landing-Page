@@ -312,6 +312,18 @@ function ContactValue({ label, value, icon: Icon, href }) {
 
 function ContactSection() {
   const { t } = useLanguage();
+
+  const handleContactSubmit = event => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const name = String(formData.get('name') || '').trim();
+    const email = String(formData.get('email') || '').trim();
+    const subject = String(formData.get('subject') || '').trim() || `${t('Website contact from')} ${name}`;
+    const message = String(formData.get('message') || '').trim();
+    const body = `${t('Name:')} ${name}\n${t('Email:')} ${email}\n\n${t('Message:')}\n${message}`;
+    window.location.href = `mailto:${contactDetails.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
   return (
     <section className="contact-section section" id="contact">
       <div className="container contact-grid">
@@ -324,6 +336,34 @@ function ContactSection() {
           <ContactValue label="Facebook page" value={contactDetails.facebook} icon={ArrowUpRight} href={contactDetails.facebook || undefined} />
           <p className="contact-note">{t('Business hours and Facebook details are pending confirmation. This website does not collect financial or identity information.')}</p>
         </div>
+        <form className="contact-form" onSubmit={handleContactSubmit}>
+          <div className="contact-form-heading">
+            <h3>{t('Send us a message')}</h3>
+            <p>{t('Your message opens in your email app so you can review and send it.')}</p>
+          </div>
+          <div className="contact-form-fields">
+            <label className="contact-form-field">
+              <span>{t('Full name')}</span>
+              <input name="name" type="text" autoComplete="name" maxLength="100" required />
+            </label>
+            <label className="contact-form-field">
+              <span>{t('Email address')}</span>
+              <input name="email" type="email" autoComplete="email" maxLength="254" required />
+            </label>
+            <label className="contact-form-field contact-form-subject">
+              <span>{t('Subject')}</span>
+              <input name="subject" type="text" maxLength="150" />
+            </label>
+            <label className="contact-form-field contact-form-message">
+              <span>{t('Message')}</span>
+              <textarea name="message" rows="6" maxLength="5000" required />
+            </label>
+          </div>
+          <div className="contact-form-actions">
+            <button className="button button-primary" type="submit"><Mail size={16} aria-hidden="true" />{t('Continue in email app')}</button>
+            <span>{t('If your email app does not open, email')} <a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a>.</span>
+          </div>
+        </form>
       </div>
     </section>
   );
